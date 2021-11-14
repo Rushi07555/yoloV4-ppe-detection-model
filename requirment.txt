@@ -3,3 +3,4 @@ pillow
 Cython
 matplotlib
 opencv-python
+numpy
