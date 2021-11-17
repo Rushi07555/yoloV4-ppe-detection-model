@@ -1,25 +1,23 @@
 import numpy as np
-import argparse
 import time
-import cv2
 import os
-import multiprocessing
-
+import cv2
+import glob
 
 def pred(img):
   # load the COCO class labels our YOLO model was trained on
-    labelsPath = "/mnt/2tb/General/Rushikesh/sspl/obj.names"
+    labelsPath = "../yoloV4-ppe-detection-model/obj.names"
     LABELS = open(labelsPath).read().strip().split("\n")
     # initialize a list of colors to represent each possible class label
     np.random.seed(42)
     COLORS = np.random.randint(0, 255, size=(len(LABELS), 3),dtype="uint8")
     # derive the paths to the YOLO weights and model configuration
-    weightsPath = '/mnt/2tb/General/Rushikesh/sspl/training/yolov4-custom_11000.weights'
-    configPath = '/mnt/2tb/General/Rushikesh/sspl/yolov4-custom.cfg'
+    weightsPath = '../yoloV4-ppe-detection-model/training/yolov4-custom_last.weights'
+    configPath = '../yoloV4-ppe-detection-model/yolov4-custom.cfg'
     # load our YOLO object detector trained on COCO dataset (80 classes)
     # print("[INFO] loading YOLO from disk...")
     net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
-    image = cv2.imread('/mnt/2tb/General/Rushikesh/sspl/test/'+img)
+    image = cv2.imread('../yoloV4-ppe-detection-model/test/'+img)
     (H, W) = image.shape[:2]
     # determine only the *output* layer names that we need from YOLO
     ln = net.getLayerNames()
@@ -91,6 +89,8 @@ def pred(img):
             idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
         elif(k == 10) :
             idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
+        elif(k == 11) :
+            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
         if len(idxs) > 0:
             # loop over the indexes we are keeping
             for i in idxs.flatten():
@@ -104,16 +104,8 @@ def pred(img):
                 cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,0.5, color, 2)
         return image
 
-import os
-import glob
-import cv2
-import numpy as np
-import glob
-import multiprocessing
-from multiprocessing import Pool
-import concurrent.futures
 
-path = '/mnt/2tb/General/Rushikesh/sspl/test/'
+path = '../yoloV4-ppe-detection-model/test/'
 extension = 'jpg'
 os.chdir(path)
 bmp_files = glob.glob('*.{}'.format(extension))
@@ -122,11 +114,11 @@ start = time.time()
 for name in bmp_files:
     try:
         image = pred(name)
-        cv2.imwrite("/mnt/2tb/General/Rushikesh/sspl/out3/"+name, image)
+        cv2.imwrite("../yoloV4-ppe-detection-model/output/"+name, image)
     except:
         try:
-            image = cv2.imread('/mnt/2tb/General/Rushikesh/sspl/test/'+name)
-            cv2.imwrite("/mnt/2tb/General/Rushikesh/sspl/out3/not_detect/"+name, image)
+            image = cv2.imread('../yoloV4-ppe-detection-model/test/'+name)
+            cv2.imwrite("../yoloV4-ppe-detection-model/output/not_detect/"+name, image)
         except:
             pass
         pass
