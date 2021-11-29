@@ -6,7 +6,7 @@ Firstly colne the repository using following command in your command prompt
 git clone https://github.com/Rushi07555/yoloV4-ppe-detection-model.git
 ```
 # Minimum system requirnment:
-1. OS – Windows 10 Pro
+1. OS – Windows 10 Pro/ Ubuntu 18.2
 2. GPU - GTX1080TI
 3. CPU – i5-6400
 4. RAM – 16GB
