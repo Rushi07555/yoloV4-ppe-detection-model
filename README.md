@@ -59,6 +59,7 @@ pip install -r requirment.txt
   - https://github.com/AlexeyAB/darknet/blob/6e5bdf1282ad6b06ed0e962c3f5be67cf63d96dc/cfg/Gaussian_yolov3_BDD.cfg#L696
   - https://github.com/AlexeyAB/darknet/blob/6e5bdf1282ad6b06ed0e962c3f5be67cf63d96dc/cfg/Gaussian_yolov3_BDD.cfg#L789
 
+
 So if `classes=1` then should be `filters=18`. If `classes=2` then write `filters=21`.
 **(Do not write in the cfg-file: filters=(classes + 5)x3)**
 
