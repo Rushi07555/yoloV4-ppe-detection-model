@@ -4,6 +4,9 @@ import os
 import cv2
 import glob
 
+thresh = [0.50]
+ids = [0]
+
 def pred(img):
   # load the COCO class labels our YOLO model was trained on
     labelsPath = "../yoloV4-ppe-detection-model/obj.names"
@@ -67,30 +70,11 @@ def pred(img):
 
     # print('classIDs',classIDs)
     for k in classIDs:
-        if(k == 0) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
-        elif(k == 1) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
-        elif(k == 2) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.15,0.1)
-        elif(k == 3) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.8,0.1)
-        elif(k == 4) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
-        elif(k == 5) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.8,0.1)
-        elif(k == 6) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
-        elif(k == 7) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
-        elif(k == 8) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
-        elif(k == 9) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
-        elif(k == 10) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
-        elif(k == 11) :
-            idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.35,0.1)
+        for l,m in zip(thresh,ids):
+            if(k == m) :
+                idxs = cv2.dnn.NMSBoxes(boxes, confidences, l,0.1)
+            else:
+                pass
         if len(idxs) > 0:
             # loop over the indexes we are keeping
             for i in idxs.flatten():
